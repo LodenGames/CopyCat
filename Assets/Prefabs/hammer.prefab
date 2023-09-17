@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2228199231739802830}
   - component: {fileID: 9049454542087101791}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: collider
   m_TagString: Hammer
   m_Icon: {fileID: 0}
@@ -111,10 +111,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4332589542466958526, guid: 776cc5c6484f1df4aa6fbfb8316f3d87,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -1765944629045408211, guid: 776cc5c6484f1df4aa6fbfb8316f3d87,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 776cc5c6484f1df4aa6fbfb8316f3d87,
         type: 3}
       propertyPath: m_Name
       value: hammer
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 776cc5c6484f1df4aa6fbfb8316f3d87,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 776cc5c6484f1df4aa6fbfb8316f3d87,
         type: 3}
