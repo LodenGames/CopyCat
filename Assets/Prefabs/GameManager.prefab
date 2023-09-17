@@ -45,26 +45,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playingCard: {fileID: 0}
-  hammerPlayingCard: {fileID: 5772302498416843464, guid: b008f82b620e9554fb61a591fae389af,
-    type: 3}
-  emptyPlayingCard: {fileID: 5772302498416843464, guid: 17870dc478554d5418cdc327799a4bea,
-    type: 3}
-  kingPlayingCard: {fileID: 5772302498416843464, guid: f346cf792897cdd4381e97b195cf1ffc,
-    type: 3}
-  hammerObj: {fileID: 6002826576722706052, guid: a83371c66032ae74f9c7bc75ee79a1c3,
-    type: 3}
-  kingObj: {fileID: 2100672379277666620, guid: 12672868c44c9004bb59637a6721c5b0, type: 3}
   cam: {fileID: 0}
   objectSpawnPoint: {fileID: 0}
   env: {fileID: 0}
   playingCardsInHand:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  playingCardImages:
-  - {fileID: 5772302498416843464, guid: 17870dc478554d5418cdc327799a4bea, type: 3}
-  - {fileID: 5772302498416843464, guid: b008f82b620e9554fb61a591fae389af, type: 3}
-  - {fileID: 5772302498416843464, guid: f346cf792897cdd4381e97b195cf1ffc, type: 3}
+  - spawnable: {fileID: 0}
+    playingCard: {fileID: 0}
+  - spawnable: {fileID: 0}
+    playingCard: {fileID: 0}
+  - spawnable: {fileID: 0}
+    playingCard: {fileID: 0}
   spawnableObjects:
   - spawnable: {fileID: 6002826576722706052, guid: a83371c66032ae74f9c7bc75ee79a1c3,
       type: 3}

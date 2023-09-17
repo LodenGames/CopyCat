@@ -4,83 +4,77 @@ using UnityEngine;
 
 public class CardCopier : MonoBehaviour
 {
-    [SerializeField] GameObject playingCard;
-    [SerializeField] Transform cam, objectSpawnPoint, env;
+    [SerializeField] Transform objectSpawnPoint, env;
 
-    [SerializeField] List<GameObject> playingCardsInHand = new List<GameObject>();
+    [SerializeField] List<SpawnableObjects> playingCardsInHand = new List<SpawnableObjects>();
     [SerializeField] List<SpawnableObjects> spawnableObjects = new List<SpawnableObjects>();
+
+    Transform cam;
+
 
     string currentObj;
 
     void Start() {
-        
+        cam = Camera.main.transform;
     }
 
     void Update() {
 
-        Debug.Log(spawnableObjects);
-
         RaycastHit hit;
-        
+
         if (Physics.Raycast(cam.position, cam.forward, out hit, 500f)) {
             Debug.DrawRay(cam.position, cam.forward * hit.distance, Color.yellow);
 
-            //
-            // Click 1 - 5 to assign playingCards
-            if (Input.GetKeyDown(KeyCode.Alpha1)) {
-
-                string hitTag = hit.collider.tag;
-                GameObject temp;
-
-                foreach (SpawnableObjects tempObj in spawnableObjects) {
-                    if (tempObj.spawnable.tag == hitTag) {
-                        temp = Instantiate(tempObj.spawnable, objectSpawnPoint.position, objectSpawnPoint.rotation, env);
-                        ReplaceCard(tempObj.playingCard);
-                        Destroy(hit.collider.gameObject);
-                        currentObj = hitTag;
-                        break;
-                    }
+            for (int i = 1; i <= 3; i++) { 
+                if (Input.GetKeyDown((KeyCode)(48 + i))) { // If Key 1..5 Pressed
+                    CopyHitObjectToPlayingCard(hit, i);
                 }
-
-                //if (hit.collider.tag == "Hammer") {
-                    
-                //Debug.Log("current Object is: " + playingCard);
-                //ReplaceCard(hammerPlayingCard);
-                //Destroy(hit.collider.gameObject);
-                //currentObj = "Hammer";
-                //// Spawn object in the card if not empty ontop of card?
-                //} else if (hit.collider.tag == "King") {
-                //    Debug.Log("current Object is: " + playingCard);
-                //    //GameObject temp; 
-                //    if (currentObj == "Hammer") {
-                //        temp = Instantiate(hammerObj, objectSpawnPoint.position, objectSpawnPoint.rotation, env);
-                //    } else {
-                //        temp = Instantiate(kingObj, objectSpawnPoint.position, objectSpawnPoint.rotation, env);
-                //    }
-                //    // if temp does not have an rb component add one
-
-                //    ReplaceCard(kingPlayingCard);
-                //    Destroy(hit.collider.gameObject);
-                //    currentObj = "King";
-                //    // Spawn object in playingCard
-                //} 
             }
 
-            
         } else {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
-            Debug.Log("Did not Hit");
         }
-
-        // replace with hammer playng card
         
     }
 
+    private void CopyHitObjectToPlayingCard(RaycastHit hit, int cardInHand) {
+        string hitTag = hit.collider.tag;
 
+        // Find object to spawn with the same tag
+        foreach (SpawnableObjects objectToSpawn in spawnableObjects) {
+            if (hitTag == objectToSpawn.spawnable.tag) {
+                SpawnTheObjectShownOnCardInfrontOfPlayer(cardInHand);
+                ChangeCardImageInHand(objectToSpawn.playingCard, playingCardsInHand[cardInHand - 1]);
+                Destroy(hit.collider.gameObject); // Destroy hit Object in World
+                ReplaceObjectToBeSpawnedFromCardInHand(cardInHand, objectToSpawn);
 
-    void ReplaceCard(GameObject newCard) {
-        GameObject temp = Instantiate(newCard, playingCard.transform.position, playingCard.transform.rotation, cam);
-        Destroy(playingCard);
-        playingCard = temp;
+                return;
+            }
+        }
+    }
+
+    private void ReplaceObjectToBeSpawnedFromCardInHand(int cardInHand, SpawnableObjects objectToSpawn) {
+        playingCardsInHand[cardInHand - 1].spawnable = objectToSpawn.spawnable;
+    }
+
+    private void SpawnTheObjectShownOnCardInfrontOfPlayer(int cardInHand) {
+        if (playingCardsInHand[cardInHand - 1].spawnable.tag == "Empty") { return; }
+        
+        GameObject temp = Instantiate(playingCardsInHand[cardInHand - 1].spawnable, objectSpawnPoint.position, objectSpawnPoint.rotation, env);
+
+        AddRigidBodyIfNonExists(temp);
+    }
+
+    private static void AddRigidBodyIfNonExists(GameObject temp) {
+        if (temp.GetComponent<Rigidbody>() == null) {
+            temp.AddComponent<Rigidbody>();
+        }
+    }
+
+    private void ChangeCardImageInHand(GameObject newCard, SpawnableObjects playingCardsInHand) {
+        Transform handPosiiton = playingCardsInHand.playingCard.transform;
+        GameObject temp = Instantiate(newCard, handPosiiton.position, handPosiiton.rotation, cam);
+        Destroy(playingCardsInHand.playingCard);
+        playingCardsInHand.playingCard = temp;
     }
 }
