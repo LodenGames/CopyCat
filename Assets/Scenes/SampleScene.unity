@@ -268,7 +268,8 @@ Transform:
   m_LocalPosition: {x: 0.068, y: -0.333, z: 0.587}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1988241121}
   m_Father: {fileID: 330585546}
   m_LocalEulerAnglesHint: {x: 42.815, y: 0, z: 0}
 --- !u!1 &171294339 stripped
@@ -291,6 +292,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponSpawnPoint: {fileID: 171168680}
   test: {fileID: 2100672379277666620, guid: 12672868c44c9004bb59637a6721c5b0, type: 3}
+  activeWeapon:
+    spawnable: {fileID: 1988241120}
+    playingCard: {fileID: 5772302498416843464, guid: 17870dc478554d5418cdc327799a4bea,
+      type: 3}
 --- !u!1001 &256014301
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1508,6 +1513,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1230850172}
   m_CullTransparentMesh: 1
+--- !u!1001 &1319466836
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 171168680}
+    m_Modifications:
+    - target: {fileID: 527669049786852484, guid: 3b9aea798984f9042b7b10ff8c0e2169,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 527669049786852484, guid: 3b9aea798984f9042b7b10ff8c0e2169,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 527669049786852484, guid: 3b9aea798984f9042b7b10ff8c0e2169,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 527669049786852484, guid: 3b9aea798984f9042b7b10ff8c0e2169,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 527669049786852484, guid: 3b9aea798984f9042b7b10ff8c0e2169,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 527669049786852484, guid: 3b9aea798984f9042b7b10ff8c0e2169,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 527669049786852484, guid: 3b9aea798984f9042b7b10ff8c0e2169,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 527669049786852484, guid: 3b9aea798984f9042b7b10ff8c0e2169,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 527669049786852484, guid: 3b9aea798984f9042b7b10ff8c0e2169,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 527669049786852484, guid: 3b9aea798984f9042b7b10ff8c0e2169,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 911285660529546509, guid: 3b9aea798984f9042b7b10ff8c0e2169,
+        type: 3}
+      propertyPath: m_Name
+      value: empty
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3b9aea798984f9042b7b10ff8c0e2169, type: 3}
 --- !u!1 &1333667622
 GameObject:
   m_ObjectHideFlags: 0
@@ -2300,6 +2373,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 9163088082222330223}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1988241120 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 911285660529546509, guid: 3b9aea798984f9042b7b10ff8c0e2169,
+    type: 3}
+  m_PrefabInstance: {fileID: 1319466836}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1988241121 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 527669049786852484, guid: 3b9aea798984f9042b7b10ff8c0e2169,
+    type: 3}
+  m_PrefabInstance: {fileID: 1319466836}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &782840409771515199
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2596,6 +2681,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4139386732252943370, guid: 2619a09946e9f974697be19629c2ca6d,
         type: 3}
+      propertyPath: spawnableObjects.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4139386732252943370, guid: 2619a09946e9f974697be19629c2ca6d,
+        type: 3}
+      propertyPath: spawnableObjects.Array.data[0].spawnable
+      value: 
+      objectReference: {fileID: 911285660529546509, guid: 3b9aea798984f9042b7b10ff8c0e2169,
+        type: 3}
+    - target: {fileID: 4139386732252943370, guid: 2619a09946e9f974697be19629c2ca6d,
+        type: 3}
+      propertyPath: spawnableObjects.Array.data[1].spawnable
+      value: 
+      objectReference: {fileID: 6002826576722706052, guid: a83371c66032ae74f9c7bc75ee79a1c3,
+        type: 3}
+    - target: {fileID: 4139386732252943370, guid: 2619a09946e9f974697be19629c2ca6d,
+        type: 3}
+      propertyPath: spawnableObjects.Array.data[2].spawnable
+      value: 
+      objectReference: {fileID: 2100672379277666620, guid: 12672868c44c9004bb59637a6721c5b0,
+        type: 3}
+    - target: {fileID: 4139386732252943370, guid: 2619a09946e9f974697be19629c2ca6d,
+        type: 3}
       propertyPath: playingCardsInHand.Array.data[0].spawnable
       value: 
       objectReference: {fileID: 471509214}
@@ -2609,6 +2717,24 @@ PrefabInstance:
       propertyPath: playingCardsInHand.Array.data[2].spawnable
       value: 
       objectReference: {fileID: 471509214}
+    - target: {fileID: 4139386732252943370, guid: 2619a09946e9f974697be19629c2ca6d,
+        type: 3}
+      propertyPath: spawnableObjects.Array.data[0].playingCard
+      value: 
+      objectReference: {fileID: 5772302498416843464, guid: 17870dc478554d5418cdc327799a4bea,
+        type: 3}
+    - target: {fileID: 4139386732252943370, guid: 2619a09946e9f974697be19629c2ca6d,
+        type: 3}
+      propertyPath: spawnableObjects.Array.data[1].playingCard
+      value: 
+      objectReference: {fileID: 5772302498416843464, guid: b008f82b620e9554fb61a591fae389af,
+        type: 3}
+    - target: {fileID: 4139386732252943370, guid: 2619a09946e9f974697be19629c2ca6d,
+        type: 3}
+      propertyPath: spawnableObjects.Array.data[2].playingCard
+      value: 
+      objectReference: {fileID: 5772302498416843464, guid: f346cf792897cdd4381e97b195cf1ffc,
+        type: 3}
     - target: {fileID: 4139386732252943370, guid: 2619a09946e9f974697be19629c2ca6d,
         type: 3}
       propertyPath: playingCardsInHand.Array.data[0].playingCard

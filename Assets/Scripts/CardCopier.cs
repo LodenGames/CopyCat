@@ -7,28 +7,25 @@ public class CardCopier : MonoBehaviour
 {
 
     [Header("Spawnable Objects")]
-    [SerializeField] List<SpawnableObjects> playingCardsInHand = new List<SpawnableObjects>();
-    [SerializeField] List<SpawnableObjects> spawnableObjects = new List<SpawnableObjects>();
+    public List<SpawnableObjects> playingCardsInHand = new List<SpawnableObjects>();
+    public List<SpawnableObjects> spawnableObjects = new List<SpawnableObjects>();
 
     [Header("UI Elements")]
     [SerializeField] Image cursor;
     [SerializeField] Image copyRing;
-    [SerializeField] float scanDuration = 0.45f, pressDelayDuration = 0.15f;
+    public float scanDuration = 0.45f, pressDelayDuration = 0.15f;
 
     [Header("Spawn Points")]
     [SerializeField] Transform objectSpawnPoint;
     [SerializeField] Transform env;
-
-    WeaponsController weaponsController;
     
     Transform cam;
     float timer;
-    bool canScan, switchWeapon;
+    bool canScan;
 
 
     void Start() {
         cam = Camera.main.transform;
-        weaponsController = GetComponent<WeaponsController>();
     }
 
     void Update() {
@@ -43,11 +40,6 @@ public class CardCopier : MonoBehaviour
 
             for (int i = 1; i <= 3; i++) {
                 if (Input.GetKeyUp((KeyCode)(48 + i))) { 
-                    if (switchWeapon) {
-                        Debug.Log("Switch Weapon!");
-                        weaponsController.ChangeWeapons(i);
-                        switchWeapon = false;
-                    }
                     ResetCopyCursorUI();
                 } 
                 else if (Input.GetKeyDown((KeyCode)(48 + i))) { 
@@ -59,15 +51,7 @@ public class CardCopier : MonoBehaviour
 
                     timer += Time.deltaTime;
 
-                    // TODO refactor below... messy
-
-                    if (timer < pressDelayDuration) {
-                        switchWeapon = true;
-                    } 
-                    else {
-                        switchWeapon = false;
-                        ShowCopyUILoadingCircle();
-                    }
+                    DelayShowingLoadingCircleUntilButtonHeldNotPressed();
 
                     if (timer >= scanDuration && canScan) {
                         CopyHitObjectToPlayingCard(hit, i);
@@ -82,6 +66,12 @@ public class CardCopier : MonoBehaviour
             cursor.color = Color.black;
             ResetCopyCursorUI();
             //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white); // Debugging
+        }
+    }
+
+    private void DelayShowingLoadingCircleUntilButtonHeldNotPressed() {
+        if (timer > pressDelayDuration) {
+            ShowCopyUILoadingCircle();
         }
     }
 
@@ -111,9 +101,7 @@ public class CardCopier : MonoBehaviour
         }
     }
 
-    private void ReplaceObjectToBeSpawnedFromCardInHand(int cardInHand, SpawnableObjects objectToSpawn) {
-        playingCardsInHand[cardInHand - 1].spawnable = objectToSpawn.spawnable;
-    }
+    
 
     private void SpawnTheObjectShownOnCardInfrontOfPlayer(int cardInHand) {
         if (playingCardsInHand[cardInHand - 1].spawnable.tag == "Empty") { return; }
@@ -129,7 +117,11 @@ public class CardCopier : MonoBehaviour
         }
     }
 
-    private void ChangeCardImageInHand(GameObject newCard, SpawnableObjects playingCardsInHand) {
+    public void ReplaceObjectToBeSpawnedFromCardInHand(int cardInHand, SpawnableObjects objectToSpawn) {
+        playingCardsInHand[cardInHand - 1].spawnable = objectToSpawn.spawnable;
+    }
+
+    public void ChangeCardImageInHand(GameObject newCard, SpawnableObjects playingCardsInHand) {
         Transform handPosiiton = playingCardsInHand.playingCard.transform;
         GameObject temp = Instantiate(newCard, handPosiiton.position, handPosiiton.rotation, cam);
         Destroy(playingCardsInHand.playingCard);
