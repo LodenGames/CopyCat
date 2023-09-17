@@ -13,9 +13,11 @@ public class WeaponsController : MonoBehaviour
     float pressDelayDuration;
     float timer;
     bool switchWeapon;
-    [SerializeField] SpawnableObjects activeWeapon;
+    public SpawnableObjects activeWeapon;
+    public int activeWeaponCardNumber;
 
     void Start() {
+        activeWeaponCardNumber = 0;
         cardcopier = GetComponent<CardCopier>();
         pressDelayDuration = cardcopier.pressDelayDuration;
     }
@@ -45,12 +47,12 @@ public class WeaponsController : MonoBehaviour
     }
 
     public void ChangeWeapons(int cardNumber) {
-
+        activeWeaponCardNumber = cardNumber;
         GameObject newWeapon = Instantiate(cardcopier.playingCardsInHand[cardNumber - 1].spawnable, weaponSpawnPoint.position, weaponSpawnPoint.rotation, weaponSpawnPoint);
         
         foreach (SpawnableObjects obj in cardcopier.spawnableObjects) {
             if (activeWeapon.spawnable.tag == obj.spawnable.tag) {
-                cardcopier.ReplaceObjectToBeSpawnedFromCardInHand(cardNumber, obj);
+                cardcopier.ReplaceSpawnableDataInCard(cardNumber, obj);
                 activeWeapon.playingCard = obj.playingCard;
             }
             

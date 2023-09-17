@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,8 @@ public class CardCopier : MonoBehaviour
     [Header("Spawn Points")]
     [SerializeField] Transform objectSpawnPoint;
     [SerializeField] Transform env;
+
+    WeaponsController weaponsController;
     
     Transform cam;
     float timer;
@@ -26,6 +29,7 @@ public class CardCopier : MonoBehaviour
 
     void Start() {
         cam = Camera.main.transform;
+        weaponsController = GetComponent<WeaponsController>();
     }
 
     void Update() {
@@ -54,6 +58,9 @@ public class CardCopier : MonoBehaviour
                     DelayShowingLoadingCircleUntilButtonHeldNotPressed();
 
                     if (timer >= scanDuration && canScan) {
+                        // check if active weapon is not tagged empty
+                        // if so d othis
+                        // else drop current weapon
                         CopyHitObjectToPlayingCard(hit, i);
                         ResetCopyCursorUI();
                         canScan = false;
@@ -88,26 +95,37 @@ public class CardCopier : MonoBehaviour
     private void CopyHitObjectToPlayingCard(RaycastHit hit, int cardInHand) {
         string hitTag = hit.collider.tag;
 
+        // when copying see if slot is empty and not = to the active Weapon slot I am currently using
+
         // Find object to spawn with the same tag
         foreach (SpawnableObjects objectToSpawn in spawnableObjects) {
-            if (hitTag == objectToSpawn.spawnable.tag) {
-                SpawnTheObjectShownOnCardInfrontOfPlayer(cardInHand);
+            if (hitTag != objectToSpawn.spawnable.tag) { continue; }
+
+            if (weaponsController.activeWeapon.spawnable.tag != "Empty" 
+                && cardInHand == weaponsController.activeWeaponCardNumber) {
+
+                ChangeCardImageInHand(objectToSpawn.playingCard, playingCardsInHand[cardInHand - 1]);
+                ReplaceSpawnableDataInCard(cardInHand, objectToSpawn);
+                SpawnCardObjectOnCopyNoActiveWeapon(weaponsController.activeWeapon.spawnable, cardInHand);
+                weaponsController.ChangeWeapons(cardInHand);
+                ChangeCardImageInHand(spawnableObjects[0].playingCard, playingCardsInHand[cardInHand - 1]);
+                ReplaceSpawnableDataInCard(cardInHand, spawnableObjects[0]);
+                Destroy(hit.collider.gameObject);
+            } 
+            else {
+                SpawnCardObjectOnCopyNoActiveWeapon(playingCardsInHand[cardInHand - 1].spawnable,cardInHand);
                 ChangeCardImageInHand(objectToSpawn.playingCard, playingCardsInHand[cardInHand - 1]);
                 Destroy(hit.collider.gameObject); // Destroy hit Object in World
-                ReplaceObjectToBeSpawnedFromCardInHand(cardInHand, objectToSpawn);
-
-                return;
+                ReplaceSpawnableDataInCard(cardInHand, objectToSpawn);
             }
+            return;
         }
     }
 
-    
-
-    private void SpawnTheObjectShownOnCardInfrontOfPlayer(int cardInHand) {
-        if (playingCardsInHand[cardInHand - 1].spawnable.tag == "Empty") { return; }
+    private void SpawnCardObjectOnCopyNoActiveWeapon(GameObject toSpawn, int cardInHand) {
+        if (toSpawn.tag == "Empty") { return; }
         
-        GameObject temp = Instantiate(playingCardsInHand[cardInHand - 1].spawnable, objectSpawnPoint.position, objectSpawnPoint.rotation, env);
-
+        GameObject temp = Instantiate(toSpawn, objectSpawnPoint.position, objectSpawnPoint.rotation, env);
         AddRigidBodyIfNonExists(temp);
     }
 
@@ -117,7 +135,7 @@ public class CardCopier : MonoBehaviour
         }
     }
 
-    public void ReplaceObjectToBeSpawnedFromCardInHand(int cardInHand, SpawnableObjects objectToSpawn) {
+    public void ReplaceSpawnableDataInCard(int cardInHand, SpawnableObjects objectToSpawn) {
         playingCardsInHand[cardInHand - 1].spawnable = objectToSpawn.spawnable;
     }
 
