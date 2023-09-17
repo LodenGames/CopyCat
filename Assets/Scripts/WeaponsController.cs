@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,12 +16,15 @@ public class WeaponsController : MonoBehaviour
     public int activeWeaponCardNumber;
 
     void Start() {
-        activeWeaponCardNumber = 0;
         cardcopier = GetComponent<CardCopier>();
         pressDelayDuration = cardcopier.pressDelayDuration;
     }
 
     void Update() {
+        EquipWeapon();
+    }
+
+    private void EquipWeapon() {
         for (int i = 1; i <= 3; i++) {
             if (Input.GetKeyUp((KeyCode)(48 + i))) {
                 if (switchWeapon) {
@@ -47,21 +49,34 @@ public class WeaponsController : MonoBehaviour
     }
 
     public void ChangeWeapons(int cardNumber) {
-        activeWeaponCardNumber = cardNumber;
+
+        bool activeWeaponIsEmpty = (activeWeapon.spawnable.tag == "Empty") ? true : false;
+
         GameObject newWeapon = Instantiate(cardcopier.playingCardsInHand[cardNumber - 1].spawnable, weaponSpawnPoint.position, weaponSpawnPoint.rotation, weaponSpawnPoint);
-        
+
+        cardcopier.ChangeCardImageInHand(cardcopier.spawnableObjects[0].playingCard, cardcopier.playingCardsInHand[cardNumber - 1]);
+
         foreach (SpawnableObjects obj in cardcopier.spawnableObjects) {
+            // change the new card position to active card...
             if (activeWeapon.spawnable.tag == obj.spawnable.tag) {
-                cardcopier.ReplaceSpawnableDataInCard(cardNumber, obj);
-                activeWeapon.playingCard = obj.playingCard;
+
+                // put active weapon into card
+                if (!activeWeaponIsEmpty) {
+                    cardcopier.ChangeCardImageInHand(obj.playingCard, cardcopier.playingCardsInHand[activeWeaponCardNumber - 1]);
+                }
+                cardcopier.ReplaceSpawnableDataInCard(cardNumber, cardcopier.spawnableObjects[0]);
+
+                if (!activeWeaponIsEmpty) {
+                    cardcopier.ReplaceSpawnableDataInCard(activeWeaponCardNumber, obj);
+                }
+                activeWeaponCardNumber = cardNumber;
+                Destroy(activeWeapon.spawnable);
+                activeWeapon.spawnable = newWeapon;
+                return;
+
             }
             
         }
-
-        cardcopier.ChangeCardImageInHand(activeWeapon.playingCard, cardcopier.playingCardsInHand[cardNumber - 1]);
-
-        Destroy(activeWeapon.spawnable);
-        activeWeapon.spawnable = newWeapon;
 
     }
 }
