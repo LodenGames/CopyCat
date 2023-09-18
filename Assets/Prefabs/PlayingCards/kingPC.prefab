@@ -58,6 +58,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8513424388201257645, guid: a0d661341fa4f854ba19265dc4874fec,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: -6067185528594298527, guid: a0d661341fa4f854ba19265dc4874fec,
         type: 3}
       propertyPath: m_Materials.Array.size
@@ -106,7 +111,12 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: a0d661341fa4f854ba19265dc4874fec,
         type: 3}
       propertyPath: m_Name
-      value: playingCardKing
+      value: kingPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a0d661341fa4f854ba19265dc4874fec,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

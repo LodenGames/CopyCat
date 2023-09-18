@@ -40,6 +40,14 @@ public class WeaponsController : MonoBehaviour
 
         GameObject newWeapon = Instantiate(cardcopier.playingCardsInHand[cardNumber - 1].spawnable, weaponSpawnPoint.position, weaponSpawnPoint.rotation, weaponSpawnPoint);
 
+        // change layermask of new weapon
+        int activeWeaponLayer = LayerMask.NameToLayer("ActiveWeapon");
+        newWeapon.layer = activeWeaponLayer;
+
+        foreach (Transform child in newWeapon.transform) {
+            child.gameObject.layer = activeWeaponLayer;
+        }
+
         cardcopier.ChangeCardImageInHand(cardcopier.spawnableObjects[0].playingCard, cardcopier.playingCardsInHand[cardNumber - 1]);
 
         foreach (SpawnableObjects obj in cardcopier.spawnableObjects) {

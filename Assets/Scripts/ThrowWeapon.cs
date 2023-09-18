@@ -67,6 +67,10 @@ public class ThrowWeapon : MonoBehaviour {
             }
             projectileRigidBody = projectile.GetComponent<Rigidbody>();
 
+            if (projectile.GetComponent<LightBreak>() == null) {
+                projectile.AddComponent<LightBreak>();
+            }
+
             Vector3 forceToAdd = forceDirection * throwForce + transform.up * throwUpwardForce;
 
             projectileRigidBody.AddForce(forceToAdd, ForceMode.Impulse);

@@ -72,7 +72,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 905e82f49dac2884596c5bf7f1af78d0, type: 2}
+      objectReference: {fileID: 2100000, guid: 4981497d6216597438a1298cda0add03, type: 2}
     - target: {fileID: -6067185528594298527, guid: a0d661341fa4f854ba19265dc4874fec,
         type: 3}
       propertyPath: m_Materials.Array.data[1]
@@ -111,7 +111,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: a0d661341fa4f854ba19265dc4874fec,
         type: 3}
       propertyPath: m_Name
-      value: hammerPC
+      value: bookPC
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a0d661341fa4f854ba19265dc4874fec,
         type: 3}

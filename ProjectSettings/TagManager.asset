@@ -9,6 +9,7 @@ TagManager:
   - Empty
   - GameManager
   - Book
+  - LightBreak
   layers:
   - Default
   - TransparentFX
@@ -17,9 +18,9 @@ TagManager:
   - Water
   - UI
   - Copyable
-  - 
-  - 
-  - 
+  - LightBreaker
+  - PlayingCards
+  - ActiveWeapon
   - 
   - 
   - 
