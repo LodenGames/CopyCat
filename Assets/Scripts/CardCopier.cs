@@ -4,8 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardCopier : MonoBehaviour
-{
+public class CardCopier : MonoBehaviour {
 
     [Header("Spawnable Objects")]
     public List<SpawnableObjects> playingCardsInHand = new List<SpawnableObjects>();
@@ -21,7 +20,7 @@ public class CardCopier : MonoBehaviour
     [SerializeField] Transform env;
 
     WeaponsController weaponsController;
-    
+
     Transform cam;
     float timer;
     bool canScan;
@@ -43,14 +42,12 @@ public class CardCopier : MonoBehaviour
             cursor.color = Color.red;
 
             for (int i = 1; i <= 3; i++) {
-                if (Input.GetKeyUp((KeyCode)(48 + i))) { 
+                if (Input.GetKeyUp((KeyCode)(48 + i))) {
                     ResetCopyCursorUI();
-                } 
-                else if (Input.GetKeyDown((KeyCode)(48 + i))) { 
+                } else if (Input.GetKeyDown((KeyCode)(48 + i))) {
                     ResetCopyCursorUI();
                     canScan = true;
-                } 
-                else if (Input.GetKey((KeyCode)(48 + i))) {
+                } else if (Input.GetKey((KeyCode)(48 + i))) {
                     if (!canScan) { return; }
 
                     timer += Time.deltaTime;
@@ -68,8 +65,7 @@ public class CardCopier : MonoBehaviour
 
                 }
             }
-        } 
-        else {
+        } else {
             cursor.color = Color.black;
             ResetCopyCursorUI();
             //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white); // Debugging
@@ -84,7 +80,7 @@ public class CardCopier : MonoBehaviour
 
     private void ShowCopyUILoadingCircle() {
         copyRing.fillAmount = Mathf.Clamp((timer - pressDelayDuration) / (scanDuration - pressDelayDuration), 0.0f, 1.0f);
-        
+
     }
 
     private void ResetCopyCursorUI() {
@@ -101,7 +97,7 @@ public class CardCopier : MonoBehaviour
         foreach (SpawnableObjects objectToSpawn in spawnableObjects) {
             if (hitTag != objectToSpawn.spawnable.tag) { continue; }
 
-            if (weaponsController.activeWeapon.spawnable.tag != "Empty" 
+            if (weaponsController.activeWeapon.spawnable.tag != "Empty"
                 && cardInHand == weaponsController.activeWeaponCardNumber) {
 
                 ChangeCardImageInHand(objectToSpawn.playingCard, playingCardsInHand[cardInHand - 1]);
@@ -111,9 +107,8 @@ public class CardCopier : MonoBehaviour
                 ChangeCardImageInHand(spawnableObjects[0].playingCard, playingCardsInHand[cardInHand - 1]);
                 ReplaceSpawnableDataInCard(cardInHand, spawnableObjects[0]);
                 Destroy(hit.collider.gameObject);
-            } 
-            else {
-                SpawnCardObjectOnCopyNoActiveWeapon(playingCardsInHand[cardInHand - 1].spawnable,cardInHand);
+            } else {
+                SpawnCardObjectOnCopyNoActiveWeapon(playingCardsInHand[cardInHand - 1].spawnable, cardInHand);
                 ChangeCardImageInHand(objectToSpawn.playingCard, playingCardsInHand[cardInHand - 1]);
                 Destroy(hit.collider.gameObject); // Destroy hit Object in World
                 ReplaceSpawnableDataInCard(cardInHand, objectToSpawn);
@@ -124,7 +119,7 @@ public class CardCopier : MonoBehaviour
 
     private void SpawnCardObjectOnCopyNoActiveWeapon(GameObject toSpawn, int cardInHand) {
         if (toSpawn.tag == "Empty") { return; }
-        
+
         GameObject temp = Instantiate(toSpawn, objectSpawnPoint.position, objectSpawnPoint.rotation, env);
         AddRigidBodyIfNonExists(temp);
     }
@@ -133,6 +128,15 @@ public class CardCopier : MonoBehaviour
         if (temp.GetComponent<Rigidbody>() == null) {
             temp.AddComponent<Rigidbody>();
         }
+    }
+
+    public SpawnableObjects GetSpawnableObjects(GameObject objectToMatch) {
+        foreach (SpawnableObjects objectToSpawn in spawnableObjects) {
+            if (objectToMatch.tag == objectToSpawn.spawnable.tag) {
+                return objectToSpawn;
+            }
+        }
+        return new SpawnableObjects(spawnableObjects[0].spawnable, spawnableObjects[0].spawnable);
     }
 
     public void ReplaceSpawnableDataInCard(int cardInHand, SpawnableObjects objectToSpawn) {

@@ -24,28 +24,14 @@ public class WeaponsController : MonoBehaviour
         EquipWeapon();
     }
 
-    private void EquipWeapon() {
-        for (int i = 1; i <= 3; i++) {
-            if (Input.GetKeyUp((KeyCode)(48 + i))) {
-                if (switchWeapon) {
-                    ChangeWeapons(i);
-                    switchWeapon = false;
-                    timer = 0f;
-                }
-            } else if (Input.GetKeyDown((KeyCode)(48 + i))) {
-                timer = 0f;
-            } else if (Input.GetKey((KeyCode)(48 + i))) {
+    public bool WeaponIsActive() {
+        return (activeWeapon.spawnable.tag == "Empty") ? false : true;
+    }
 
-                timer += Time.deltaTime;
-
-                if (timer < pressDelayDuration) {
-                    switchWeapon = true;
-                } else {
-                    switchWeapon = false;
-                }
-
-            }
-        }
+    public void DestroyActiveWeapon() {
+        GameObject newWeapon = Instantiate(cardcopier.spawnableObjects[0].spawnable, weaponSpawnPoint.position, weaponSpawnPoint.rotation, weaponSpawnPoint);
+        Destroy(activeWeapon.spawnable);
+        activeWeapon.spawnable = newWeapon;
     }
 
     public void ChangeWeapons(int cardNumber) {
@@ -75,8 +61,34 @@ public class WeaponsController : MonoBehaviour
                 return;
 
             }
-            
+
         }
 
     }
+
+    private void EquipWeapon() {
+        for (int i = 1; i <= 3; i++) {
+            if (Input.GetKeyUp((KeyCode)(48 + i))) {
+                if (switchWeapon) {
+                    ChangeWeapons(i);
+                    switchWeapon = false;
+                    timer = 0f;
+                }
+            } else if (Input.GetKeyDown((KeyCode)(48 + i))) {
+                timer = 0f;
+            } else if (Input.GetKey((KeyCode)(48 + i))) {
+
+                timer += Time.deltaTime;
+
+                if (timer < pressDelayDuration) {
+                    switchWeapon = true;
+                } else {
+                    switchWeapon = false;
+                }
+
+            }
+        }
+    }
+
+    
 }
