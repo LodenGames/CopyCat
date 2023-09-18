@@ -8,6 +8,7 @@ TagManager:
   - King
   - Empty
   - GameManager
+  - Book
   layers:
   - Default
   - TransparentFX
