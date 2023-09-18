@@ -12,7 +12,6 @@ public class LightBreak : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.tag == "LightBreak") {
-            Debug.Log("break light");
             // Get component from child light, turn it off
             collision.transform.GetComponentInChildren<Light>().enabled = false;
 
