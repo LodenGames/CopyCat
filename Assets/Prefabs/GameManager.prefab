@@ -10,9 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2092245166628147231}
   - component: {fileID: 4139386732252943370}
+  - component: {fileID: 6246417947869579029}
+  - component: {fileID: 3182088541668543589}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,18 +46,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 075b36ad548b9aa40bce19899ebc2066, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playingCard: {fileID: 0}
-  cam: {fileID: 0}
-  objectSpawnPoint: {fileID: 0}
-  env: {fileID: 0}
   playingCardsInHand:
-  - spawnable: {fileID: 0}
+  - spawnable: {fileID: 911285660529546509, guid: 3b9aea798984f9042b7b10ff8c0e2169,
+      type: 3}
     playingCard: {fileID: 0}
-  - spawnable: {fileID: 0}
+  - spawnable: {fileID: 911285660529546509, guid: 3b9aea798984f9042b7b10ff8c0e2169,
+      type: 3}
     playingCard: {fileID: 0}
-  - spawnable: {fileID: 0}
+  - spawnable: {fileID: 911285660529546509, guid: 3b9aea798984f9042b7b10ff8c0e2169,
+      type: 3}
     playingCard: {fileID: 0}
   spawnableObjects:
+  - spawnable: {fileID: 911285660529546509, guid: 3b9aea798984f9042b7b10ff8c0e2169,
+      type: 3}
+    playingCard: {fileID: 5772302498416843464, guid: 17870dc478554d5418cdc327799a4bea,
+      type: 3}
   - spawnable: {fileID: 6002826576722706052, guid: a83371c66032ae74f9c7bc75ee79a1c3,
       type: 3}
     playingCard: {fileID: 5772302498416843464, guid: b008f82b620e9554fb61a591fae389af,
@@ -64,3 +69,46 @@ MonoBehaviour:
       type: 3}
     playingCard: {fileID: 5772302498416843464, guid: f346cf792897cdd4381e97b195cf1ffc,
       type: 3}
+  cursor: {fileID: 0}
+  copyRing: {fileID: 0}
+  scanDuration: 0.45
+  pressDelayDuration: 0.15
+  objectSpawnPoint: {fileID: 0}
+  env: {fileID: 0}
+--- !u!114 &6246417947869579029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913344879600800554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d63a06e22bbeb974ba228912dd152639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponSpawnPoint: {fileID: 0}
+  activeWeapon:
+    spawnable: {fileID: 0}
+    playingCard: {fileID: 5772302498416843464, guid: 17870dc478554d5418cdc327799a4bea,
+      type: 3}
+  activeWeaponCardNumber: 1
+--- !u!114 &3182088541668543589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913344879600800554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86d5aaf266cb8a149afecf8e8f837eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 0}
+  attackPoint: {fileID: 0}
+  attackPointAlt: {fileID: 0}
+  throwForce: 12
+  throwUpwardForce: 2
+  throwDelay: 0
+  throwableAnimator: {fileID: 0}
