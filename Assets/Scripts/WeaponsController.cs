@@ -45,6 +45,9 @@ public class WeaponsController : MonoBehaviour
         newWeapon.layer = activeWeaponLayer;
 
         foreach (Transform child in newWeapon.transform) {
+            foreach (Transform grandchildren in child) {
+                grandchildren.gameObject.layer = activeWeaponLayer;
+            }
             child.gameObject.layer = activeWeaponLayer;
         }
 

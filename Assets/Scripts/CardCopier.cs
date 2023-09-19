@@ -19,6 +19,8 @@ public class CardCopier : MonoBehaviour {
     [SerializeField] Transform objectSpawnPoint;
     [SerializeField] Transform env;
 
+    [SerializeField] float scanDistance;
+
     WeaponsController weaponsController;
 
     Transform cam;
@@ -36,8 +38,8 @@ public class CardCopier : MonoBehaviour {
         RaycastHit hit;
         int layerMask = 1 << LayerMask.NameToLayer("Copyable"); // Resource: https://forum.unity.com/threads/raycast-layermask-parameter.944194/
 
-        if (Physics.Raycast(cam.position, cam.forward, out hit, 500f, layerMask)) {
-            //Debug.DrawRay(cam.position, cam.forward * hit.distance, Color.yellow); // For Debugging
+        if (Physics.Raycast(cam.position, cam.forward, out hit, scanDistance, layerMask)) {
+            Debug.DrawRay(cam.position, cam.forward * hit.distance, Color.yellow); // For Debugging
 
             cursor.color = Color.red;
 
