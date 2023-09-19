@@ -36,6 +36,8 @@ public class WeaponsController : MonoBehaviour
 
     public void ChangeWeapons(int cardNumber) {
 
+        if (!cardcopier.playingCardsAreEnabled()) { return; }
+
         bool activeWeaponIsEmpty = (activeWeapon.spawnable.tag == "Empty") ? true : false;
 
         GameObject newWeapon = Instantiate(cardcopier.playingCardsInHand[cardNumber - 1].spawnable, weaponSpawnPoint.position, weaponSpawnPoint.rotation, weaponSpawnPoint);

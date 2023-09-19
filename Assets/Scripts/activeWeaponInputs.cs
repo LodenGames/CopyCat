@@ -5,11 +5,13 @@ using UnityEngine;
 public class activeWeaponInputs : MonoBehaviour {
 
     DoorOpener dooropener;
+    CardCopier cardCopier;
     WeaponsController weaponsController;
 
     void Start() {
         dooropener = GetComponent<DoorOpener>();
         weaponsController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<WeaponsController>();
+        cardCopier = GameObject.FindGameObjectWithTag("GameManager").GetComponent<CardCopier>();
     }
 
     void Update() {
@@ -21,7 +23,11 @@ public class activeWeaponInputs : MonoBehaviour {
                     }
                     break;
                 default:
-                    Debug.Log("No active weapon");
+                    if (cardCopier.canPickUpPlayingCards && !cardCopier.playingCardsAreEnabled()) {
+                        cardCopier.SetPlayingCardsToActive(cardCopier.hitSaved);
+                        cardCopier.playingCardsEnabled = true;
+                    }
+                    Debug.Log("Nothing Equipped / no action");
                     break;
             }
         }

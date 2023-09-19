@@ -12,6 +12,8 @@ TagManager:
   - LightBreak
   - Key
   - NearDoor
+  - Spawner
+  - CardsOnWall
   layers:
   - Default
   - TransparentFX

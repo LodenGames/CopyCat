@@ -46,15 +46,15 @@ public class ThrowWeapon : MonoBehaviour {
         bool addForce = true;
 
         float distanceToHit = CalculateHitDistance();
-        if (distanceToHit < 1.4f) {
-            projectile = Instantiate(objectToThrow.spawnable, attackPointAlt.position, attackPointAlt.rotation);
-            addForce = false;
-        } else if (distanceToHit < 2.25f) {
-            projectile = Instantiate(objectToThrow.spawnable, attackPointAlt.position, attackPointAlt.rotation);
-        } else {
-            projectile = Instantiate(objectToThrow.spawnable, attackPoint.position, attackPoint.rotation);
-        }
+        //if (distanceToHit < 1.4f) {
+        //    projectile = Instantiate(objectToThrow.spawnable, attackPointAlt.position, attackPointAlt.rotation);
+        //    addForce = false;
+        //} else if (distanceToHit < 2.25f) {
+        //    projectile = Instantiate(objectToThrow.spawnable, attackPointAlt.position, attackPointAlt.rotation);
+        //} else {
+        //}
 
+        projectile = Instantiate(objectToThrow.spawnable, attackPoint.position, attackPoint.rotation);
         if (addForce) {
             Vector3 forceDirection = CalculateForceDirection();
 
@@ -96,6 +96,7 @@ public class ThrowWeapon : MonoBehaviour {
         RaycastHit hit;
 
         if (Physics.Raycast(cam.position, cam.forward, out hit, 500f)) {
+            
             forceDirection = (hit.point - attackPoint.position).normalized;
         }
 

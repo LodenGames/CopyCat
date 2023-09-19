@@ -9,6 +9,7 @@ public class CardCopier : MonoBehaviour {
     [Header("Spawnable Objects")]
     public List<SpawnableObjects> playingCardsInHand = new List<SpawnableObjects>();
     public List<SpawnableObjects> spawnableObjects = new List<SpawnableObjects>();
+    public List<GameObject> randomSpawnableObjects = new List<GameObject>();
 
     [Header("UI Elements")]
     [SerializeField] Image cursor;
@@ -24,13 +25,19 @@ public class CardCopier : MonoBehaviour {
     WeaponsController weaponsController;
 
     Transform cam;
+    GameObject playingCardGroup;
     float timer;
     bool canScan;
-
+    public bool playingCardsEnabled;
+    public bool canPickUpPlayingCards;
+    public RaycastHit hitSaved;
 
     void Start() {
         cam = Camera.main.transform;
+        playingCardGroup = cam.GetChild(0).gameObject;
         weaponsController = GetComponent<WeaponsController>();
+        playingCardsEnabled = false;
+        canPickUpPlayingCards = false;
     }
 
     void Update() {
@@ -43,6 +50,13 @@ public class CardCopier : MonoBehaviour {
 
             cursor.color = Color.red;
 
+            if (hit.collider.tag == "CardsOnWall" && playingCardsEnabled == false) {
+                hitSaved = hit;
+                canPickUpPlayingCards = true;
+                return;
+            }
+
+            // Scanning weapon 1 - 3
             for (int i = 1; i <= 3; i++) {
                 if (Input.GetKeyUp((KeyCode)(48 + i))) {
                     ResetCopyCursorUI();
@@ -57,21 +71,58 @@ public class CardCopier : MonoBehaviour {
                     DelayShowingLoadingCircleUntilButtonHeldNotPressed();
 
                     if (timer >= scanDuration && canScan) {
-                        // check if active weapon is not tagged empty
-                        // if so d othis
-                        // else drop current weapon
-                        CopyHitObjectToPlayingCard(hit, i);
-                        ResetCopyCursorUI();
-                        canScan = false;
+                        if (playingCardsAreEnabled()) {
+                            CopyHitObjectToPlayingCard(hit, i);
+                            ResetCopyCursorUI();
+                            canScan = false;
+                        }
                     }
 
                 }
             }
+
+
         } else {
             cursor.color = Color.black;
             ResetCopyCursorUI();
+            canPickUpPlayingCards = false;
             //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white); // Debugging
         }
+    }
+
+    public void SetPlayingCardsToActive(RaycastHit hit) {
+        playingCardsEnabled = true;
+        playingCardGroup.SetActive(true);
+        Destroy(hit.collider.gameObject);
+    }
+
+    public bool playingCardsAreEnabled() {
+        return playingCardsEnabled;
+    }
+
+    public SpawnableObjects GetSpawnableObjects(GameObject objectToMatch) {
+        foreach (SpawnableObjects objectToSpawn in spawnableObjects) {
+            if (objectToMatch.tag == objectToSpawn.spawnable.tag) {
+                return objectToSpawn;
+            }
+        }
+        return new SpawnableObjects(spawnableObjects[0].spawnable, spawnableObjects[0].spawnable);
+    }
+
+    public void ReplaceSpawnableDataInCard(int cardInHand, SpawnableObjects objectToSpawn) {
+        playingCardsInHand[cardInHand - 1].spawnable = objectToSpawn.spawnable;
+    }
+
+    public void ChangeCardImageInHand(GameObject newCard, SpawnableObjects playingCardsInHand) {
+        Transform handPosiiton = playingCardsInHand.playingCard.transform;
+        GameObject temp = Instantiate(newCard, handPosiiton.position, handPosiiton.rotation, playingCardGroup.transform);
+        Destroy(playingCardsInHand.playingCard);
+        playingCardsInHand.playingCard = temp;
+    }
+
+    public GameObject GetRandomSpawnable() {
+        int randomIndex = Random.Range(0, randomSpawnableObjects.Count);
+        return randomSpawnableObjects[randomIndex];
     }
 
     private void DelayShowingLoadingCircleUntilButtonHeldNotPressed() {
@@ -132,23 +183,5 @@ public class CardCopier : MonoBehaviour {
         }
     }
 
-    public SpawnableObjects GetSpawnableObjects(GameObject objectToMatch) {
-        foreach (SpawnableObjects objectToSpawn in spawnableObjects) {
-            if (objectToMatch.tag == objectToSpawn.spawnable.tag) {
-                return objectToSpawn;
-            }
-        }
-        return new SpawnableObjects(spawnableObjects[0].spawnable, spawnableObjects[0].spawnable);
-    }
-
-    public void ReplaceSpawnableDataInCard(int cardInHand, SpawnableObjects objectToSpawn) {
-        playingCardsInHand[cardInHand - 1].spawnable = objectToSpawn.spawnable;
-    }
-
-    public void ChangeCardImageInHand(GameObject newCard, SpawnableObjects playingCardsInHand) {
-        Transform handPosiiton = playingCardsInHand.playingCard.transform;
-        GameObject temp = Instantiate(newCard, handPosiiton.position, handPosiiton.rotation, cam);
-        Destroy(playingCardsInHand.playingCard);
-        playingCardsInHand.playingCard = temp;
-    }
+    
 }
