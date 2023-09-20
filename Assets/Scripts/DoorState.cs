@@ -5,5 +5,7 @@ using UnityEngine;
 public class DoorState : MonoBehaviour {
 
     public bool doorHasBeenMoved;
+
+    public bool isVent;
     
 }

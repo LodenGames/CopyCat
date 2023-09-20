@@ -5,5 +5,6 @@ using UnityEngine;
 public class AccessPrefab : MonoBehaviour {
 
     public GameObject lightOff;
+    public GameObject key;
 
 }

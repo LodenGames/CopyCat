@@ -18,8 +18,13 @@ public class activeWeaponInputs : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Mouse0)) {
             switch (weaponsController.activeWeapon.spawnable.tag) {
                 case "Key":
-                    if (dooropener.canMoveDoor) {
+                    if (dooropener.canMoveDoor && !dooropener.vent) {
                         dooropener.MoveDoor();
+                    }
+                    break;
+                case "Hammer":
+                    if (dooropener.canMoveDoor && dooropener.vent) {
+                        dooropener.EndGame();
                     }
                     break;
                 default:

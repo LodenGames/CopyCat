@@ -26,6 +26,7 @@ public class FPSController : MonoBehaviour {
         characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = true;
+        transform.rotation = Quaternion.Euler(0f, 180f, 0f);
     }
 
     void Update() {
