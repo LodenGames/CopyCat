@@ -7,8 +7,10 @@ public class activeWeaponInputs : MonoBehaviour {
     DoorOpener dooropener;
     CardCopier cardCopier;
     WeaponsController weaponsController;
+    AudioSource audioSource;
 
     void Start() {
+        audioSource = GetComponent<AudioSource>();
         dooropener = GetComponent<DoorOpener>();
         weaponsController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<WeaponsController>();
         cardCopier = GameObject.FindGameObjectWithTag("GameManager").GetComponent<CardCopier>();
@@ -17,14 +19,16 @@ public class activeWeaponInputs : MonoBehaviour {
     void Update() {
         if (Input.GetKeyDown(KeyCode.Mouse0)) {
             switch (weaponsController.activeWeapon.spawnable.tag) {
-                case "Key":
-                    if (dooropener.canMoveDoor && !dooropener.vent) {
-                        dooropener.MoveDoor();
-                    }
-                    break;
                 case "Hammer":
                     if (dooropener.canMoveDoor && dooropener.vent) {
                         dooropener.EndGame();
+                    }
+                    break;
+                case "Key":
+                    if (dooropener.canMoveDoor && !dooropener.vent) {
+                        // Play audio
+                        audioSource.PlayOneShot(audioSource.clip);
+                        dooropener.MoveDoor();
                     }
                     break;
                 default:

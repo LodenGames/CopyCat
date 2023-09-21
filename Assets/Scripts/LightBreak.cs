@@ -6,14 +6,43 @@ public class LightBreak : MonoBehaviour {
 
     GameObject lightOff;
     GameObject key;
+    AudioSource audioSource;
+
+    AccessPrefab acessPrefab;
+
 
     private void Start() {
-        lightOff = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AccessPrefab>().lightOff;
-        key = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AccessPrefab>().key;
+        acessPrefab = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AccessPrefab>();
+        lightOff = acessPrefab.lightOff;
+        key = acessPrefab.key;
+        audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     private void OnCollisionEnter(Collision collision) {
+        // see what tag this game object has
+
+        switch (transform.tag) {
+            case "Hammer":
+                audioSource.volume = 0.3f;
+                audioSource.PlayOneShot(acessPrefab.sounds[0]);
+                break;
+            case "Key":
+                audioSource.volume = 0.5f;
+                audioSource.PlayOneShot(acessPrefab.sounds[1]);
+                break;
+            case "Book":
+                audioSource.volume = 0.5f;
+                audioSource.PlayOneShot(acessPrefab.sounds[2]);
+                break;
+            default:
+                break;
+        }
+
         if (collision.gameObject.tag == "LightBreak") {
+
+            audioSource.volume = 0.5f;
+            audioSource.PlayOneShot(acessPrefab.sounds[3]);
+
             Debug.Log("Collision with light");
             if (collision.gameObject.GetComponent<LightState>().broken == true) { return; }
             Debug.Log("Spawn light");

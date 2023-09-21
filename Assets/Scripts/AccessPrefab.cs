@@ -6,5 +6,6 @@ public class AccessPrefab : MonoBehaviour {
 
     public GameObject lightOff;
     public GameObject key;
+    public AudioClip[] sounds;
 
 }

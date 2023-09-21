@@ -21,6 +21,9 @@ public class CardCopier : MonoBehaviour {
     [SerializeField] Transform env;
 
     [SerializeField] float scanDistance;
+    [SerializeField] float scanSoundDelay;
+
+    AudioSource audioSource;
 
     WeaponsController weaponsController;
 
@@ -33,6 +36,7 @@ public class CardCopier : MonoBehaviour {
     public RaycastHit hitSaved;
 
     void Start() {
+        audioSource = GetComponent<AudioSource>();
         cam = Camera.main.transform;
         playingCardGroup = cam.GetChild(0).gameObject;
         weaponsController = GetComponent<WeaponsController>();
@@ -65,6 +69,7 @@ public class CardCopier : MonoBehaviour {
                     canScan = true;
                 } else if (Input.GetKey((KeyCode)(48 + i))) {
                     if (!canScan) { return; }
+                    if (!playingCardsEnabled) { return; }
 
                     timer += Time.deltaTime;
 
@@ -75,6 +80,7 @@ public class CardCopier : MonoBehaviour {
                             CopyHitObjectToPlayingCard(hit, i);
                             ResetCopyCursorUI();
                             canScan = false;
+                            Invoke(nameof(PlayCopySound), scanSoundDelay);
                         }
                     }
 
@@ -123,6 +129,10 @@ public class CardCopier : MonoBehaviour {
     public GameObject GetRandomSpawnable() {
         int randomIndex = Random.Range(0, randomSpawnableObjects.Count);
         return randomSpawnableObjects[randomIndex];
+    }
+
+    private void PlayCopySound() {
+        audioSource.PlayOneShot(audioSource.clip);
     }
 
     private void DelayShowingLoadingCircleUntilButtonHeldNotPressed() {

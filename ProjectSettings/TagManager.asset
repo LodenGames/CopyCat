@@ -15,6 +15,7 @@ TagManager:
   - Spawner
   - CardsOnWall
   - Vent
+  - CellSpawner
   layers:
   - Default
   - TransparentFX
