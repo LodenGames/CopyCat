@@ -8,8 +8,15 @@ public class activeWeaponInputs : MonoBehaviour {
     CardCopier cardCopier;
     WeaponsController weaponsController;
     AudioSource audioSource;
+    [SerializeField] GameObject escapeCanvas;
+    FPSController fpsController;
+
+    public bool gameIsPaused;
 
     void Start() {
+        gameIsPaused = false;
+        fpsController = GetComponent<FPSController>();
+        escapeCanvas.SetActive(false);
         audioSource = GetComponent<AudioSource>();
         dooropener = GetComponent<DoorOpener>();
         weaponsController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<WeaponsController>();
@@ -38,6 +45,23 @@ public class activeWeaponInputs : MonoBehaviour {
                     }
                     Debug.Log("Nothing Equipped / no action");
                     break;
+            }
+        }
+        if (Input.GetKeyDown (KeyCode.Escape)) {
+            if (!gameIsPaused) {
+                // puase game
+                //Time.timeScale = 0f;
+                escapeCanvas.SetActive(true);
+                gameIsPaused = true;
+                fpsController.enabled = false;
+                Cursor.lockState = CursorLockMode.None;
+            } else {
+                // resume game
+                Time.timeScale = 1.0f;
+                escapeCanvas.SetActive(false);
+                gameIsPaused = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                fpsController.enabled = true;
             }
         }
     }

@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class EndGameController : MonoBehaviour {
 
     public void PressedQuit() {
+        Debug.Log("Quit pressed");
         Application.Quit();
     }
 

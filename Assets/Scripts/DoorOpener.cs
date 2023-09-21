@@ -10,6 +10,7 @@ public class DoorOpener : MonoBehaviour {
     public bool vent;
     public GameObject player;
     public GameObject GameOverUI;
+    public GameObject ambientSound;
 
     public GameObject doorObjToMove;
 
@@ -47,7 +48,8 @@ public class DoorOpener : MonoBehaviour {
         GameOverUI.SetActive(true);
         player.GetComponent<FPSController>().enabled = false;
         Cursor.lockState = CursorLockMode.None;
-        
+        ambientSound.GetComponent<AudioSource>().Stop();
+
         // disable player controller
         //Debug.Log("GameOver");
     }
