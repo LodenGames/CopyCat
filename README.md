@@ -1,2 +1,2 @@
 # CopyCat
- Ai and Games Jam Game 2023
+ A Game I made in a week with Unity for the Ai and Games Jam Game 2023.
